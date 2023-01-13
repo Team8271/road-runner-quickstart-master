@@ -55,8 +55,11 @@ public class TonyRobotHardware {
     private BasicParkTony myAutonomous = null;
 
     // Define Motor and Servo objects  (Make them private so they can't be accessed externally)
-    public DcMotorEx frontLeft, backLeft, backRight, frontRight;
-    public List<DcMotorEx> motors;
+
+    public DcMotor frontRight = null;
+    public DcMotor frontLeft = null;
+    public DcMotor backRight = null;
+    public DcMotor backLeft = null;
 
     //public DcMotorEx frontLeft = null;
 
@@ -64,17 +67,13 @@ public class TonyRobotHardware {
     public DcMotor liftR = null;
     public DcMotor armMotor = null;
 
-    public DcMotor encoderLeft;
-    public DcMotor encoderRight;
-    //private DcMotor encoderAux;
-
     public Servo wrist = null;
     public Servo palmL = null;
     public Servo palmR = null;
 
     public Servo podLeft = null;
     public Servo podRight = null;
-    public Servo podBack;
+    public Servo podBack = null;
 
     public TouchSensor liftTouch = null;
 
@@ -120,22 +119,22 @@ public class TonyRobotHardware {
         hwMap = ahwMap;
 
         // Define and Initialize Motors
-        frontLeft = hwMap.get(DcMotorEx.class, "FL");
+        frontLeft = hwMap.get(DcMotor.class, "FL");
         frontLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        frontRight = hwMap.get(DcMotorEx.class, "FR");
+        frontRight = hwMap.get(DcMotor.class, "FR");
         frontRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        backLeft = hwMap.get(DcMotorEx.class, "BL");
+        backLeft = hwMap.get(DcMotor.class, "BL");
         backLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        backRight = hwMap.get(DcMotorEx.class, "BR");
+        backRight = hwMap.get(DcMotor.class, "BR");
         backRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        liftL = hwMap.get(DcMotorEx.class, "liftL");
+        liftL = hwMap.get(DcMotor.class, "liftL");
         liftL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        liftR = hwMap.get(DcMotorEx.class, "liftR");
+        liftR = hwMap.get(DcMotor.class, "liftR");
         liftR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
        // liftR.setMode(DcMotor.ZeroPowerBehavior.BRAKE);
 
@@ -147,9 +146,6 @@ public class TonyRobotHardware {
         liftRHoldPos = liftR.getCurrentPosition();
 
 
-        encoderLeft  = frontRight;
-        encoderRight = frontLeft;
-        //encoderAux  = backRight;
 
         //set drive motor directions
         frontLeft.setDirection(DcMotor.Direction.REVERSE);

@@ -53,8 +53,6 @@ import static org.firstinspires.ftc.teamcode.drive.DriveConstants.kV;
 @Config
 public class SampleMecanumDrive extends MecanumDrive {
 
-    TonyRobotHardware robot       = new TonyRobotHardware();
-
     public static PIDCoefficients TRANSLATIONAL_PID = new PIDCoefficients(0, 0, 0);
     public static PIDCoefficients HEADING_PID = new PIDCoefficients(0, 0, 0);
 
@@ -63,6 +61,9 @@ public class SampleMecanumDrive extends MecanumDrive {
     public static double VX_WEIGHT = 1;
     public static double VY_WEIGHT = 1;
     public static double OMEGA_WEIGHT = 1;
+
+    private DcMotorEx frontLeft, backLeft, backRight, frontRight;
+    private List<DcMotorEx> motors;
 
     private TrajectorySequenceRunner trajectorySequenceRunner;
 
@@ -116,9 +117,14 @@ public class SampleMecanumDrive extends MecanumDrive {
         // For example, if +Y in this diagram faces downwards, you would use AxisDirection.NEG_Y.
         // BNO055IMUUtil.remapZAxis(imu, AxisDirection.NEG_Y);
 
-        robot.motors = Arrays.asList(robot.frontLeft, robot.backLeft, robot.backRight, robot.frontRight);
+        frontLeft = hardwareMap.get(DcMotorEx.class, "FL");
+        backLeft = hardwareMap.get(DcMotorEx.class, "FL");
+        frontRight = hardwareMap.get(DcMotorEx.class, "FL");
+        backRight = hardwareMap.get(DcMotorEx.class, "FL");
+        
+        motors = Arrays.asList(frontLeft, backLeft, backRight, frontRight);
 
-        for (DcMotorEx motor : robot.motors) {
+        for (DcMotorEx motor : motors) {
             MotorConfigurationType motorConfigurationType = motor.getMotorType().clone();
             motorConfigurationType.setAchieveableMaxRPMFraction(1.0);
             motor.setMotorType(motorConfigurationType);
@@ -134,7 +140,7 @@ public class SampleMecanumDrive extends MecanumDrive {
             setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, MOTOR_VELO_PID);
         }
 
-        // TODO: reverse any robot.motors using DcMotor.setDirection()
+        // TODO: reverse any motors using DcMotor.setDirection()
 
         // TODO: if desired, use setLocalizer() to change the localization method
         // for instance, setLocalizer(new ThreeTrackingWheelLocalizer(...));
@@ -219,13 +225,13 @@ public class SampleMecanumDrive extends MecanumDrive {
     }
 
     public void setMode(DcMotor.RunMode runMode) {
-        for (DcMotorEx motor : robot.motors) {
+        for (DcMotorEx motor : motors) {
             motor.setMode(runMode);
         }
     }
 
     public void setZeroPowerBehavior(DcMotor.ZeroPowerBehavior zeroPowerBehavior) {
-        for (DcMotorEx motor : robot.motors) {
+        for (DcMotorEx motor : motors) {
             motor.setZeroPowerBehavior(zeroPowerBehavior);
         }
     }
@@ -236,7 +242,7 @@ public class SampleMecanumDrive extends MecanumDrive {
                 coefficients.f * 12 / batteryVoltageSensor.getVoltage()
         );
 
-        for (DcMotorEx motor : robot.motors) {
+        for (DcMotorEx motor : motors) {
             motor.setPIDFCoefficients(runMode, compensatedCoefficients);
         }
     }
@@ -265,7 +271,7 @@ public class SampleMecanumDrive extends MecanumDrive {
     @Override
     public List<Double> getWheelPositions() {
         List<Double> wheelPositions = new ArrayList<>();
-        for (DcMotorEx motor : robot.motors) {
+        for (DcMotorEx motor : motors) {
             wheelPositions.add(encoderTicksToInches(motor.getCurrentPosition()));
         }
         return wheelPositions;
@@ -274,7 +280,7 @@ public class SampleMecanumDrive extends MecanumDrive {
     @Override
     public List<Double> getWheelVelocities() {
         List<Double> wheelVelocities = new ArrayList<>();
-        for (DcMotorEx motor : robot.motors) {
+        for (DcMotorEx motor : motors) {
             wheelVelocities.add(encoderTicksToInches(motor.getVelocity()));
         }
         return wheelVelocities;
@@ -282,10 +288,10 @@ public class SampleMecanumDrive extends MecanumDrive {
 
     @Override
     public void setMotorPowers(double v, double v1, double v2, double v3) {
-        robot.frontLeft.setPower(v);
-        robot.backLeft.setPower(v1);
-        robot.backRight.setPower(v2);
-        robot.frontRight.setPower(v3);
+        frontLeft.setPower(v);
+        backLeft.setPower(v1);
+        backRight.setPower(v2);
+        frontRight.setPower(v3);
     }
 
     @Override
