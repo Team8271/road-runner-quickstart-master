@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 @TeleOp(name = "TonyComboOpMode", group = "Comp")
-@Disabled
+//@Disabled
 public class TonyComboOpMode extends LinearOpMode {
 
     TonyRobotHardware robot       = new TonyRobotHardware();

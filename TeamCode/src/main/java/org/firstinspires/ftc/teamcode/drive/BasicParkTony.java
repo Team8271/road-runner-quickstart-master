@@ -67,7 +67,7 @@ import org.firstinspires.ftc.teamcode.AutoOptions.AutonomousTextOption;
  * is explained below.
  */
 @Autonomous(name = "BasicParkTony", group = "TFOD-Autos")
-@Disabled
+//@Disabled
 public class BasicParkTony extends LinearOpMode {
     
     TonyRobotHardware robot = new TonyRobotHardware();
