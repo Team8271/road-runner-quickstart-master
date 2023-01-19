@@ -24,8 +24,6 @@ public class TonyComboOpMode extends LinearOpMode {
 
         double negLiftPow = 0;
 
-        double speedBoost = gamepad1.right_trigger/2.5;
-
         // Make sure your ID's match your configuration
         robot.init(hardwareMap);
 
@@ -48,9 +46,11 @@ public class TonyComboOpMode extends LinearOpMode {
             double x;
             double rx;
 
-            y = (-gamepad1.left_stick_y / 2) + speedBoost; // Remember, this is reversed therefore changed to neg!
-            x = ((gamepad1.left_stick_x / 2) * 1.1) + speedBoost; // Counteract imperfect strafing
-            rx = (gamepad1.right_stick_x / 2) + speedBoost;
+            double speedBoost = gamepad1.right_trigger/2;
+
+            y = (-gamepad1.left_stick_y); //+ speedBoost; // Remember, this is reversed therefore changed to neg!
+            x = (gamepad1.left_stick_x); //+ speedBoost; // Counteract imperfect strafing
+            rx = (gamepad1.right_stick_x); //+ speedBoost;
 
             // Read inverse (neg in front) IMU heading, as the IMU heading is CW positive
             double botHeading = -imu.getAngularOrientation().firstAngle;
@@ -77,6 +77,8 @@ public class TonyComboOpMode extends LinearOpMode {
             /**********************************************
                         END OF CHASSIS CONTROL
             **********************************************/
+
+
 
             //open palm (x)
             if (gamepad2.b)
@@ -149,6 +151,12 @@ public class TonyComboOpMode extends LinearOpMode {
                 robot.liftR.setPower((double)(robot.liftRHoldPos - robot.liftR.getCurrentPosition()) / robot.slopeVal);
             }
     //endregion
+
+            // speed boost telemetry
+            telemetry.addData("Y:", y);
+            telemetry.addData("x:", x);
+            telemetry.addData("rx:", rx);
+            telemetry.addData("Speed Boost", speedBoost);
 
             //display debug telemetry
             telemetry.addData("heading",(int)botHeading);

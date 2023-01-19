@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
+import org.firstinspires.ftc.teamcode.drive.TonyRobotHardware;
 
 /**
  * This is a simple teleop routine for testing localization. Drive the robot around like a normal
@@ -22,9 +23,13 @@ public class LocalizationTest extends LinearOpMode {
 
         drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
+        //initialize servos in down position
+        drive.SetPodsDown();
+
         waitForStart();
 
         while (!isStopRequested()) {
+
             drive.setWeightedDrivePower(
                     new Pose2d(
                             -gamepad1.left_stick_y,

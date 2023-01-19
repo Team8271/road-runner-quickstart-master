@@ -66,7 +66,7 @@ import org.firstinspires.ftc.teamcode.AutoOptions.AutonomousTextOption;
  * IMPORTANT: In order to use this OpMode, you need to obtain your own Vuforia license key as
  * is explained below.
  */
-@Autonomous(name = "BasicParkTony", group = "TFOD-Autos")
+@Autonomous(name = "BasicParkTony-TFOD-Autos", group = "OldTony")
 //@Disabled
 public class BasicParkTony extends LinearOpMode {
     

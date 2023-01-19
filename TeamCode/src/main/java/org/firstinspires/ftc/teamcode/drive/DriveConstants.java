@@ -57,7 +57,7 @@ public class DriveConstants {
      */
     public static double kV = 1.0 / rpmToVelocity(MAX_RPM);
     public static double kA = 0;
-    public static double kStatic = 0;
+    public static double kStatic = 0.25;
 
     /*
      * These values are used to generate the trajectories for you robot. To ensure proper operation,
@@ -99,7 +99,9 @@ public class DriveConstants {
      * https://github.com/acmerobotics/road-runner-quickstart/issues/91
      
      */
-    public static double MAX_VEL = 90;
+
+    //make sure to return MAX_VEL back to 90 if a lower number doesn't fix anything. I changed it to test a problem
+    public static double MAX_VEL = 50;
     public static double MAX_ACCEL = 90;
     public static double MAX_ANG_VEL = Math.toRadians(360);
     public static double MAX_ANG_ACCEL = Math.toRadians(360);

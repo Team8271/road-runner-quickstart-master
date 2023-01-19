@@ -43,7 +43,7 @@ import java.util.Objects;
 @Config
 @Autonomous(group = "drive")
 public class ManualFeedforwardTuner extends LinearOpMode {
-    public static double DISTANCE = 72; // in
+    public static double DISTANCE = 150; // in
 
     private FtcDashboard dashboard = FtcDashboard.getInstance();
 
@@ -76,6 +76,8 @@ public class ManualFeedforwardTuner extends LinearOpMode {
         mode = Mode.TUNING_MODE;
 
         NanoClock clock = NanoClock.system();
+
+        drive.SetPodsDown();
 
         telemetry.addLine("Ready!");
         telemetry.update();

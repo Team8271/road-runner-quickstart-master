@@ -83,6 +83,9 @@ public class TrackingWheelLateralDistanceTuner extends LinearOpMode {
         telemetry.addLine("Press Y/△ to stop the routine.");
         telemetry.update();
 
+        //initialize servos in down position
+        drive.SetPodsDown();
+
         waitForStart();
 
         if (isStopRequested()) return;
