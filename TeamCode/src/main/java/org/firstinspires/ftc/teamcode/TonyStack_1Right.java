@@ -656,14 +656,14 @@ public class TonyStack_1Right extends LinearOpMode {
         StrafeLeftEncoder(0.6, 10);
         StopDrivingTime(500);
         //forward 6
-        DriveForwardEncoder(0.4, 4);
+        DriveForwardEncoder(0.4, 3);
         //openPalms
         openPalms();
         StopDrivingTime(500);
         //backup 6in
         DriveBackwardEncoder(0.4,1);
         //lift down
-        DriveLift(0.3, 0);
+
 
 
 
