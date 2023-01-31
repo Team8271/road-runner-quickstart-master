@@ -121,7 +121,7 @@ public class TonyRobotHardware {
 
     double PodLDown = 0.7;
     double PodRDown = 0.1;
-    double PodBDown = 0.4;
+    double PodBDown = 0.35;
 
     double slopeVal     = 1400;
 

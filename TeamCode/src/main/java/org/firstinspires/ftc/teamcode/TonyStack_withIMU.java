@@ -47,7 +47,7 @@ import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 
 import java.util.List;
 
-@Autonomous(name = "TonyStack_IMU", group = "Test")
+@Autonomous(name = "IMUTonyStack", group = "Test")
 //@Disabled
 public class TonyStack_withIMU extends LinearOpMode {
     
@@ -165,7 +165,7 @@ public class TonyStack_withIMU extends LinearOpMode {
 
     // read the raw (un-offset Gyro heading) directly from the IMU
     public double getRawHeading() {
-        Orientation angles   = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        Orientation angles   = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.YZX, AngleUnit.DEGREES);
         return angles.firstAngle;
     }
 
@@ -384,9 +384,10 @@ public class TonyStack_withIMU extends LinearOpMode {
 
         while(getRawHeading() > robot.targetHeading && opModeIsActive())
         {
-            liftHold();
+            //this likely needs to be low power to hold motor
+            // liftHold();
 
-            getRawHeading();
+            //getRawHeading();
 
             getSteeringCorrection(robot.P_TURN_GAIN, robot.robotHeading);
 
@@ -431,6 +432,11 @@ public class TonyStack_withIMU extends LinearOpMode {
         StopDriving();
 
     }//endregion
+
+    /**
+     *
+     * Spin with Encoder
+     */
     public void SpinLeftEncoder(double power, int pos) throws InterruptedException
     {
         //-750 is a 90 degree right turn
@@ -455,6 +461,8 @@ public class TonyStack_withIMU extends LinearOpMode {
         //turn motor power to 0
         StopDriving();
     }
+
+
 
 /**      ARM & HAND  METHODS     **//*
 */
@@ -573,7 +581,7 @@ public class TonyStack_withIMU extends LinearOpMode {
 
         if (tfod != null) {
             //loop needed here with an escape after short waitTime in case no label is ID'd
-            while (opModeIsActive() && waitTime.milliseconds() < 500) {
+            while (opModeIsActive() && waitTime.milliseconds() < 3000) {
 
                 List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
 
@@ -597,7 +605,7 @@ public class TonyStack_withIMU extends LinearOpMode {
             }
         }
         //if we get here then we failed to see anything
-        return "A";
+        return "C";
     }//end analyze
 
     //Depending on the return of the signal, we will call these three methods
@@ -629,8 +637,8 @@ public class TonyStack_withIMU extends LinearOpMode {
     private void Zone3() throws InterruptedException
     {
         AutoOpening();
-        StopDrivingTime(500);
-        StrafeRightEncoder(0.4,22);
+        //StopDrivingTime(500);
+        //StrafeRightEncoder(0.4,22);
         //park in zone 3
         //needs figured
         //StrafeRightEncoder(0.8, 20);
@@ -643,8 +651,8 @@ public class TonyStack_withIMU extends LinearOpMode {
     {
         //swingArmHold
         robot.armMotor.setPower(0.2);
-        closePalms();
-
+        //closePalms();
+/*
         //drive 36"
             DriveForwardEncoder(0.4, 24);
 
@@ -661,7 +669,27 @@ public class TonyStack_withIMU extends LinearOpMode {
         //backup 6in
         DriveBackwardEncoder(0.4,1);
         //lift down
-        DriveLift(0.3, 0);
+        //DriveLift(0.3, 0);*/
+
+        while (true){
+            robot.frontRight.setPower(-.4);
+            robot.backRight.setPower(-.4);
+            robot.frontLeft.setPower(.4);
+            robot.backLeft.setPower(.4);
+
+            Orientation angleX   = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES);
+            //Orientation angles   = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.YZX, AngleUnit.DEGREES);
+
+            telemetry.addData("X: ", robot.angles.firstAngle);
+            telemetry.addData("Y: ", robot.angles.secondAngle);
+            telemetry.addData("Z: ", robot.angles.thirdAngle);
+            telemetry.update();
+        }
+        /**
+         * Testing the turn here
+         */
+        //SpinRightIMU(0.3, 100000);
+
 
 
 
