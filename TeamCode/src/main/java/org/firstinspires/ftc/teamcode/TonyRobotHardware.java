@@ -69,7 +69,7 @@ public class TonyRobotHardware {
     public DcMotor armMotor = null;
 
     //declare Dead Wheel encoders
-    public Encoder leftEncoder, rightEncoder, backEncoder;
+    public DcMotor leftEncoder, rightEncoder, backEncoder;
 
     //don't believe these are being used
     //public double leftEncoderPosInch;
@@ -141,10 +141,13 @@ public class TonyRobotHardware {
 
         hwMap = ahwMap;
 
-        //define and initialize odometry encoders
-        leftEncoder = new Encoder(hwMap.get(DcMotorEx.class, "FL"));
-        rightEncoder = new Encoder(hwMap.get(DcMotorEx.class, "encoderRight"));
-        backEncoder = new Encoder(hwMap.get(DcMotorEx.class, "FR"));
+        //>>>>>>>>>>>>>>>>>> this is when declaring as DcMotors. NOTE: Device name is matching the motor name when using same port
+        leftEncoder = hwMap.get(DcMotor.class, "FL");
+        leftEncoder.setMode((DcMotor.RunMode.RUN_WITHOUT_ENCODER));
+        rightEncoder = hwMap.get(DcMotor.class, "encoderRight");
+        rightEncoder.setMode((DcMotor.RunMode.RUN_WITHOUT_ENCODER));
+        backEncoder = hwMap.get(DcMotor.class, "FR");
+        backEncoder.setMode((DcMotor.RunMode.RUN_WITHOUT_ENCODER));
 
         podLeft = hwMap.servo.get("podL");
         podRight = hwMap.servo.get("podR");
