@@ -53,11 +53,12 @@ public class TonyStack_1Right extends LinearOpMode {
     
     TonyRobotHardware robot = new TonyRobotHardware();
 
-    private static final String TFOD_MODEL_ASSET = "PPDEC_8.tflite";
+    private static final String TFOD_MODEL_ASSET = "model3timesCharm.tflite";
+    //private static final String TFOD_MODEL_ASSET = "PowerPlay.tflite";
     private static final String[] LABELS = {
-            "bd",
-            "gh",
-            "rw"
+            "p",
+            "l",
+            "eh"
     };
 
     //this string is going to return a value based on the signal cone later in the code
@@ -581,16 +582,16 @@ public class TonyStack_1Right extends LinearOpMode {
 
                 if (updatedRecognitions != null) {
                     for (Recognition recognition : updatedRecognitions) {
-                        if (recognition.getConfidence() > .70) {
-                            if (recognition.getLabel().equals("bd")) {
-                                //return blue circles park right
+                        if (recognition.getConfidence() > .80) {
+                            if (recognition.getLabel().equals("p")) {
+                                //return EH NOTE: misreads as 'p' park right zone3
                                 return "C";
 
-                            } else if (recognition.getLabel().equals("gh")) {
-                                //return green hook shapes park center
+                            } else if (recognition.getLabel().equals("eh")) {
+                                //return 'p' NOTE never reads p  park center zone2
                                 return "B";
-                            } else if (recognition.getLabel().equals("rw")) {
-                                // return red squiggly lines park left
+                            } else if (recognition.getLabel().equals("l")) {
+                                // return lion park left zone1
                                 return "A";
                             }
                         }
@@ -599,7 +600,7 @@ public class TonyStack_1Right extends LinearOpMode {
             }
         }
         //if we get here then we failed to see anything
-        return "A";
+        return "B";
     }//end analyze
 
     //Depending on the return of the signal, we will call these three methods
@@ -610,7 +611,7 @@ public class TonyStack_1Right extends LinearOpMode {
         //our robot will always start with the same opening moves, AKA, AutoOpening
         AutoOpening();
         StopDrivingTime(500);
-        StrafeLeftEncoder(0.4,11);
+        StrafeLeftEncoder(0.4,5);
         //need to adjust based on where it is after AutoOpening
         //StrafeLeftEncoder(0.7, 20);
 
@@ -632,7 +633,7 @@ public class TonyStack_1Right extends LinearOpMode {
     {
         AutoOpening();
         StopDrivingTime(500);
-        StrafeRightEncoder(0.4,22);
+        StrafeRightEncoder(0.5,18);
         //park in zone 3
         //needs figured
         //StrafeRightEncoder(0.8, 20);
@@ -653,15 +654,15 @@ public class TonyStack_1Right extends LinearOpMode {
         //raise lift
         DriveLift(1, 2750);
 
-        StrafeLeftEncoder(0.6, 10);
+        StrafeLeftEncoder(0.4, 11);
         StopDrivingTime(500);
         //forward 6
-        DriveForwardEncoder(0.4, 3);
+        DriveForwardEncoder(0.4, 4);
         //openPalms
         openPalms();
         StopDrivingTime(500);
         //backup 6in
-        DriveBackwardEncoder(0.4,1);
+        DriveBackwardEncoder(0.3,1);
         //lift down
 
 

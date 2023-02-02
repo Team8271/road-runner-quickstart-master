@@ -53,11 +53,13 @@ public class TonyStackRight2 extends LinearOpMode {
 
     TonyRobotHardware robot = new TonyRobotHardware();
 
-    private static final String TFOD_MODEL_ASSET = "PPDEC_8.tflite";
+    private static final String TFOD_MODEL_ASSET = "model3timesCharm.tflite";
+    //private static final String TFOD_MODEL_ASSET = "PowerPlay.tflite";
+    // switch file name to "" if using default sleeve
     private static final String[] LABELS = {
-            "bd",
-            "gh",
-            "rw"
+            "p",
+            "l",
+            "eh"
     };
 
     //this string is going to return a value based on the signal cone later in the code
@@ -503,8 +505,8 @@ public class TonyStackRight2 extends LinearOpMode {
         //Stop lift - may need some minimal power to hold
         robot.liftL.setPower(0);
         robot.liftR.setPower(0);
-        robot.liftL.setPower(0.2);
-        robot.liftL.setPower(0.2);
+        robot.liftL.setPower(0.26);
+        robot.liftL.setPower(0.26);
     }
     public void LiftDown(double power, int pos) // input pos will need to be a value less than current.
     {
@@ -536,8 +538,8 @@ public class TonyStackRight2 extends LinearOpMode {
         //Stop lift - may need some minimal power to hold
         robot.liftL.setPower(0);
         robot.liftR.setPower(0);
-        robot.liftL.setPower(0.2);
-        robot.liftR.setPower(0.2);
+        robot.liftL.setPower(0.26);
+        robot.liftR.setPower(0.26);
         //hold stopped position
 
 
@@ -603,15 +605,15 @@ public class TonyStackRight2 extends LinearOpMode {
                 if (updatedRecognitions != null) {
                     for (Recognition recognition : updatedRecognitions) {
                         if (recognition.getConfidence() > .70) {
-                            if (recognition.getLabel().equals("bd")) {
-                                //return blue circles park right
+                            if (recognition.getLabel().equals("p")) {
+                                //return EH NOTE: misreads as 'p' park right zone3
                                 return "C";
 
-                            } else if (recognition.getLabel().equals("gh")) {
-                                //return green hook shapes park center
+                            } else if (recognition.getLabel().equals("eh")) {
+                                //return 'p' NOTE never reads p  park center zone2
                                 return "B";
-                            } else if (recognition.getLabel().equals("rw")) {
-                                // return red squiggly lines park left
+                            } else if (recognition.getLabel().equals("l")) {
+                                // return lion park left zone1
                                 return "A";
                             }
                         }
@@ -620,7 +622,7 @@ public class TonyStackRight2 extends LinearOpMode {
             }
         }
         //if we get here then we failed to see anything
-        return "C";
+        return "B";
     }//end analyze
 
     //Depending on the return of the signal, we will call these three methods
@@ -630,8 +632,8 @@ public class TonyStackRight2 extends LinearOpMode {
     {
         //our robot will always start with the same opening moves, AKA, AutoOpening
         AutoOpening();
-        //StopDrivingTime(500);
-        //StrafeLeftEncoder(0.4,11);
+        StopDrivingTime(300);
+        StrafeLeftEncoder(0.4,20);
         //need to adjust based on where it is after AutoOpening
         //StrafeLeftEncoder(0.7, 20);
 
@@ -641,10 +643,10 @@ public class TonyStackRight2 extends LinearOpMode {
     private void Zone2() throws InterruptedException
     {
         AutoOpening();
-        //StopDrivingTime(500);
-        //StrafeRightEncoder(0.4,11);
-        //need to adjust based on where it is after AutoOpening
-        //
+        StopDrivingTime(300);
+        StrafeRightEncoder(0.4,10);
+
+
 
 
     }
@@ -652,11 +654,11 @@ public class TonyStackRight2 extends LinearOpMode {
     private void Zone3() throws InterruptedException
     {
         AutoOpening();
-        //StopDrivingTime(500);
-        //StrafeRightEncoder(0.4,22);
+        StopDrivingTime(300);
+        StrafeRightEncoder(0.4,38);
         //park in zone 3
         //needs figured
-        //StrafeRightEncoder(0.8, 20);
+
 
     }
 
@@ -668,38 +670,53 @@ public class TonyStackRight2 extends LinearOpMode {
         //closePalms();
 
         //drive 56"
+
             DriveForwardEncoder(0.4, 53);
 
-        //strafe left
-            StrafeLeftEncoder(0.4,11);
-        //lift up
+        // strafe left
+            StrafeLeftEncoder(0.4,10);
+        // lift up
             LiftUp(1, 3850);
-        //stop driving
+        // stop driving
             StopDrivingTime(500);
         // Go to high junction
             DriveForwardEncoder(0.4,2);
+        // lower cone onto junction
+            LiftDown(0.5,2800);
         // drop cone
             openPalms();
-        //back up
+            StopDrivingTime(300);
+        // back up
             DriveBackwardEncoder(0.4,2);
+            /**
         // strafe right
             StrafeRightEncoder(0.4,10);
         // turn
-            SpinRightEncoder(0.29,9);
+            SpinRightEncoder(0.30,9);
         // cone stack
             DriveForwardEncoder(0.4, 30);
         // lower lift
-            LiftDown(0.5,300);
+            LiftDown(0.5,250);
         // grab cone
             closePalms();
             StopDrivingTime(300);
         // lift up
-            LiftUp(1,2236);
+            LiftUp(1,3500);
         // back up
             DriveBackwardEncoder(0.4,26);
         // turn right
-            SpinRightEncoder(0.5,9);
-
+            SpinRightEncoder(0.5,11);
+        // go to medium
+            DriveForwardEncoder(0.4, 4);
+        // lower onto medium
+            LiftDown(0.5,2050);
+        // open palms
+            openPalms();
+        // back up
+            DriveBackwardEncoder(0.6, 5);
+        // turn right
+            SpinRightEncoder(0.5,11.5);
+        DriveForwardEncoder(0.5,2);
         /**
         LiftUp(1, 2750);
         StrafeLeftEncoder(0.4, 11);

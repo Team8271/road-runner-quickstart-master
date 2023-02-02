@@ -54,11 +54,12 @@ public class BasicParkTony extends LinearOpMode {
     
     TonyRobotHardware robot = new TonyRobotHardware();
 
-    private static final String TFOD_MODEL_ASSET = "PPDEC_8.tflite";
+    private static final String TFOD_MODEL_ASSET = "model3timesCharm.tflite";
+    //private static final String TFOD_MODEL_ASSET = "PowerPlay.tflite";
     private static final String[] LABELS = {
-            "bd",
-            "gh",
-            "rw"
+            "p",
+            "l",
+            "eh"
     };
 
     //this string is going to return a value based on the signal cone later in the code
@@ -135,20 +136,20 @@ public class BasicParkTony extends LinearOpMode {
  * ****************REMEMBER POWER IS DECIMAL 0.0 TO 1.0  NOT 20 *************************************
  */
                         //If returns squiggly lines
-                        if (signal.equals("A")) { //RedWaves go left parking zone1
+                        if (signal.equals("A")) { //Lion go left parking zone1
 
                             Zone1();
 
                         }
 
                         //If returns green hooks
-                        else if (signal.equals("B")) { //GreenHooks stay center parking zone2
+                        else if (signal.equals("B")) { //power never sees this stay center parking zone2
                             Zone2();
 
                         }
 
                         //If returns blue circles
-                        else if (signal.equals("C")){ //BlueDots go rightparking zone3
+                        else if (signal.equals("C")){ //EH, which was mislabeled as 'p' go right parking zone3
                             Zone3();
 
                         }
@@ -599,22 +600,22 @@ public class BasicParkTony extends LinearOpMode {
 
         if (tfod != null) {
             //loop needed here with an escape after short waitTime in case no label is ID'd
-            while (opModeIsActive() && waitTime.milliseconds() < 10000) {
+            while (opModeIsActive() && waitTime.milliseconds() < 3000) {
 
                 List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
 
                 if (updatedRecognitions != null) {
                     for (Recognition recognition : updatedRecognitions) {
                         if (recognition.getConfidence() > .70) {
-                            if (recognition.getLabel().equals("bd")) {
-                                //return blue circles park right
+                            if (recognition.getLabel().equals("p")) {
+                                //return EH NOTE: misreads as 'p' park right zone3
                                 return "C";
 
-                            } else if (recognition.getLabel().equals("gh")) {
-                                //return green hook shapes park center
+                            } else if (recognition.getLabel().equals("eh")) {
+                                //return 'p' NOTE never reads p  park center zone2
                                 return "B";
-                            } else if (recognition.getLabel().equals("rw")) {
-                                // return red squiggly lines park left
+                            } else if (recognition.getLabel().equals("l")) {
+                                // return lion park left zone1
                                 return "A";
                             }
                         }
@@ -623,7 +624,8 @@ public class BasicParkTony extends LinearOpMode {
             }
         }
         //if we get here then we failed to see anything
-        return "C";
+        // Never reads P, so let this zone as default
+        return "B";
     }//end analyze
 
     //Depending on the return of the signal, we will call these three methods
@@ -653,7 +655,7 @@ public class BasicParkTony extends LinearOpMode {
     {
         AutoOpening();
         StopDrivingTime(500);
-        StrafeRightEncoder(0.9, 20);
+        StrafeRightEncoder(0.5, 23);
 
         PodsUp();
         //park in zone 3

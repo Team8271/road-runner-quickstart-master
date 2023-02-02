@@ -64,7 +64,7 @@ public class TESTConceptTensorFlowObjectDetectionWebcam extends LinearOpMode {
      */
     TonyRobotHardware robot = new TonyRobotHardware();
 
-    private static final String TFOD_MODEL_ASSET = "PPDEC_8.tflite";
+    private static final String TFOD_MODEL_ASSET = "model3timesCharm.tflite"; // switch file name to "PowerPlay.tflite" if using default sleeve
     private static final String[] LABELS = {
             "bd",
             "gh",
