@@ -53,12 +53,12 @@ public class TonyStack_1Right extends LinearOpMode {
     
     TonyRobotHardware robot = new TonyRobotHardware();
 
-    private static final String TFOD_MODEL_ASSET = "model3timesCharm.tflite";
-    //private static final String TFOD_MODEL_ASSET = "PowerPlay.tflite";
+    //private static final String TFOD_MODEL_ASSET = "model3timesCharm.tflite";
+    private static final String TFOD_MODEL_ASSET = "PowerPlay.tflite";
     private static final String[] LABELS = {
-            "p",
-            "l",
-            "eh"
+            "Q1",
+            "Q2",
+            "Q3"
     };
 
     //this string is going to return a value based on the signal cone later in the code
@@ -583,14 +583,14 @@ public class TonyStack_1Right extends LinearOpMode {
                 if (updatedRecognitions != null) {
                     for (Recognition recognition : updatedRecognitions) {
                         if (recognition.getConfidence() > .80) {
-                            if (recognition.getLabel().equals("p")) {
+                            if (recognition.getLabel().equals("Q3")) {
                                 //return EH NOTE: misreads as 'p' park right zone3
                                 return "C";
 
-                            } else if (recognition.getLabel().equals("eh")) {
+                            } else if (recognition.getLabel().equals("Q2")) {
                                 //return 'p' NOTE never reads p  park center zone2
                                 return "B";
-                            } else if (recognition.getLabel().equals("l")) {
+                            } else if (recognition.getLabel().equals("Q1")) {
                                 // return lion park left zone1
                                 return "A";
                             }
@@ -600,7 +600,7 @@ public class TonyStack_1Right extends LinearOpMode {
             }
         }
         //if we get here then we failed to see anything
-        return "B";
+        return "C";
     }//end analyze
 
     //Depending on the return of the signal, we will call these three methods
@@ -652,7 +652,7 @@ public class TonyStack_1Right extends LinearOpMode {
         DriveForwardEncoder(0.4, 24);
 
         //raise lift
-        DriveLift(1, 2750);
+        DriveLift(1, 2755);
 
         StrafeLeftEncoder(0.4, 11);
         StopDrivingTime(500);
